@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'list-item/', to: 'list_item#index'
-      get 'list-item/:id', to: 'list_item#show'
-      post 'list-item/:id', to: 'list_item#create' 
+      post 'list-item/', to: 'list_item#create'
+      get 'list-item/:id', to: 'list_item#show' 
       delete 'list-item/:id', to: 'list_item#destroy'
     end
   end
