@@ -1,9 +1,10 @@
 class Api::V1::ListItemController < ApplicationController
-    before_action :set_list_item, only: [:show, :edit, :update, :destroy]
+    before_action :set_list_item, :except => [:index, :create]
+    before_action :user_login
     #GET /list-item
     #GET /list-item.json
     def index
-        @list_items = ListItem.all
+        @list_items = ListItem.where('user_id = ?', session[:user_id]).find_each
         render json: @list_items
     end
 
@@ -17,19 +18,10 @@ class Api::V1::ListItemController < ApplicationController
         end
     end
 
-    # GET /list-item/new
-  def new
-    @list_item = ListItem.new
-  end
-
-  # GET /list-item/1/edit
-  def edit
-  end
-
   # POST /list-item
   # POST /list-item.json
   def create
-    @list_item = ListItem.new(list_item_params)
+    @list_item = ListItem.new(list_item_params.merge(:user_id => session[:user_id]))
 
 
     if @list_item.save
@@ -61,5 +53,11 @@ class Api::V1::ListItemController < ApplicationController
     # Only allow a list of trusted parameters through.
     def list_item_params
       params.permit(:label, :group)
+    end
+
+    def user_login
+      unless helpers.logged_in?
+        render status: 401, json: {"error": "UNAUTHORIZED"}
+      end
     end
 end

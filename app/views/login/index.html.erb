@@ -1,0 +1,8 @@
+<%= form_with url: "/login", method: :post do |form| %>
+    <%= form.label :username, "Username:" %>
+    <%= form.text_field :username %>
+    <%= form.label :pass, "Password:" %>
+    <%= form.password_field :pass %>
+    <%= form.submit "Login" %>
+<% end %>
+<a href="/users/new">Sign Up</a>

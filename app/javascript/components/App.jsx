@@ -37,7 +37,11 @@ class App extends React.Component {
     }
 
     refreshList(){
-        fetch(baseUrl + 'list-item').then(response => response.json()).then(data => this.setState({items: data}));
+        fetch(baseUrl + 'list-item')
+            .then(response => response.json())
+            .then((data) => {
+                this.setState({items: data || []})
+            });
     }
 
     createItem(label){
